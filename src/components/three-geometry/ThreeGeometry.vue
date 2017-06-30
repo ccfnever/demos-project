@@ -7,7 +7,6 @@
 <script>
   import THREE from '../../libs/three-r80.js';
 //  import Init from './threeGeometry.js';
-  console.log(THREE)
   export default {
     data(){
       return {

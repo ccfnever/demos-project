@@ -68,10 +68,10 @@ export default init = function(canvas){
     requestAnimationFrame(loop)
 
     //清楚canvas
-    // ctx.fillStyle =  "rgba(0,0,0,0.3)";
-    // ctx.fillRect(0,0, canvasWidth, canvasHeight);
+    ctx.fillStyle =  "rgba(0,0,0,0.1)";
+    ctx.fillRect(0,0, canvasWidth, canvasHeight);
 
-    ctx.clearRect(0,0, canvasWidth, canvasHeight)
+    // ctx.clearRect(0,0, canvasWidth, canvasHeight)
     var colorIndex = parseInt(Math.random()*10)
 
     var redRandom = parseInt(Math.random()*6)
@@ -81,19 +81,19 @@ export default init = function(canvas){
     // var size = Math.random() *3;
 
     //随机产生一个粒子
-    var particle = new Particle(canvasWidth/2, 690,'#e50547',false,1,1.5,1.5);
-    var particle2 = new Particle(canvasWidth/2, 700,'#e50547',false,1,1.5,1.5);
+    var particle = new Particle(canvasWidth/2, 690,'#e50547',false,1,1,1.5);
+    var particle2 = new Particle(canvasWidth/2, 700,'#e50547',false,1,1,1.5);
     var particle3 = new Particle(canvasWidth/2, 710,'#e50547',false,1,1.5,1.5);
-    var particle4 = new Particle(canvasWidth/2, 720,'#4fffff',false,1,1.5,1.5);
+    var particle4 = new Particle(canvasWidth/2, 720,'#e50547',false,1,1.5,1.5);
 
 
-    var particle5 = new Particle(canvasWidth/2.02, 710,'#e50547',false,1,1.5,1.5);
-    var particle6 = new Particle(canvasWidth/2.02, 710,'#e50547',false,1,1.5,1.5);
+    var particle5 = new Particle(canvasWidth/2.02, 710,'#e50547',false,1,1,1.5);
+    var particle6 = new Particle(canvasWidth/2.02, 710,'#e50547',false,1,1,1.5);
     var particle7 = new Particle(canvasWidth/2.02, 710,'#e50547',false,1,1.5,1.5);
     var particle8 = new Particle(canvasWidth/2.02, 710,'#e50547',false,1,1.5,1.5);
 
-    var particle9  = new Particle(canvasWidth/2.02, 710,'#4fffff',false,2,3,3);
-    var particle10 = new Particle(canvasWidth/2.02, 710,'#4fffff',false,2,3,3);
+    var particle9  = new Particle(canvasWidth/2.02, 710,'#e50547',false,2,3,3);
+    var particle10 = new Particle(canvasWidth/2.02, 710,'#e50547',false,2,3,3);
     var particle11 = new Particle(canvasWidth/2.02, 710,'#e50547',false,2,3,3);
     var particle12 = new Particle(canvasWidth/2.02, 710,'#e50547',false,2,3,3);
 

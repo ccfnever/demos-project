@@ -3,7 +3,7 @@
     <h1>{{ msg }}</h1>
     <ul class="nav">
       <li><router-link to="canvas-geyser">canvas-geyser</router-link></li>
-      <li><router-link to="canvas-glint">canvas-glint</router-link>
+      <li><router-link to="dancing-robot">dancing-robot</router-link>
       <li><router-link to="css3-3dbox">css3-3dbox</router-link></li>
       <li><router-link to="css3-3d-phone">css3-3d-phone</router-link></li>
       <li><router-link to="three-geometry">three-geometry</router-link></li>
