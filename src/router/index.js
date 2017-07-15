@@ -6,6 +6,7 @@ import DancingRobot from '../components/dancing-robot/DancingRobot.vue';
 import Box3d from '../components/css3-3dbox/Box3d.vue';
 import Phone3d from '../components/css3-3d-phone/Phone3d.vue';
 import ThreeGeometry from '../components/three-geometry';
+import PictureWindow from '../components/picture-window';
 
 Vue.use(Router);
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/three-geometry',
       name: 'ThreeGeometry',
       component: ThreeGeometry,
+    },
+    {
+      path: '/picture-window',
+      name: 'PictureWindow',
+      component: PictureWindow,
     },
     {
       path: '/',
