@@ -5,8 +5,12 @@
       <div class="picture-container">
         <div class="section section-1" id="pic1">
         </div>
-        <!--<div class="section section-2"></div>-->
       </div>
+  
+      <!-- <div class="test">
+              <div class="before">正面</div>
+              <div class="after">背面</div>
+            </div> -->
     </div>
   </div>
 </template>
@@ -41,6 +45,10 @@ export default {
         }
       }
 
+      function _isFunction(fn) {
+        return Object.prototype.toString.call(fn) === '[object Function]';
+      }
+
       var _this = this;
 
       /**
@@ -55,7 +63,9 @@ export default {
         column: 4,
         backgroundURL: [],
         intervalTime: 500,
-        animateQueue: [{ index: 13, direction: 'left' }, { index: 29, direction: 'right' }, { index: 28, direction: 'right' }]
+        animateQueue: [{ index: 13, direction: 'left' }, { index: 29, direction: 'right' }, { index: 28, direction: 'right' }],
+        starTime: 2000,
+        callBack: null
 
       }
 
@@ -79,18 +89,17 @@ export default {
       _this.picContainer = document.getElementById(selector);
       _this.intervalTime = _this.params.intervalTime;
       _this.animateQueue = _this.params.animateQueue;
+      _this.starTime = _this.params.starTime;
+      _this.callBack = _this.params.callBack;
       _this.currentFloor = 0;
       _this.floors = []
       //给一层创建小图片
       _this.createDebris = function (floor, backgroundURL) {
 
         var htmlStr = '', columnNum = 0, rowNum = 0;
-
         for (var i = 0; i < _this.row * _this.column; i++) {
           htmlStr += '<div class="debris"></div>'
         }
-
-
         floor.innerHTML = htmlStr;
 
         _this.debrisEl = floor.getElementsByTagName('div');
@@ -103,11 +112,11 @@ export default {
         for (let i = 0; i < _this.debrisEl.length; i++) {
           _this.debrisEl[i].style.width = _this.debrisWidth + 'px'
           _this.debrisEl[i].style.height = _this.debrisHeight + 'px'
-          _this.debrisEl[i].style.backgroundSize = _this.containerWidth;
-          if (backgroundURL) {
-            _this.debrisEl[i].style.backgroundImage = 'url(' + backgroundURL + ')';
-          }
 
+          if (backgroundURL) {
+            _this.debrisEl[i].style.backgroundImage = "url(" + backgroundURL + ")";
+          }
+          _this.debrisEl[i].style.backgroundSize = _this.containerWidth;
 
           if (i !== 0 && i % _this.row == 0) {
             rowNum = 0
@@ -131,7 +140,13 @@ export default {
         var floor;
         for (var i = 0; i < _this.backgroundURL.length; i++) {
           floor = document.createElement('div')
-          floor.className = 'pic-floor pic-floor-' + (i + 1);
+
+          if (i & 1 !== 0) {
+            floor.className = 'pic-floor back pic-floor-' + (i + 1);
+          } else {
+            floor.className = 'pic-floor pic-floor-' + (i + 1);
+          }
+
           floor.style.zIndex = _this.backgroundURL.length - i;
           _this.picContainer.appendChild(floor);
           _this.createDebris(floor, _this.backgroundURL[i])
@@ -139,7 +154,7 @@ export default {
         }
         setTimeout(function () {
           _this.animateStart()
-        }, 3000)
+        }, 2000)
 
       }
 
@@ -148,11 +163,10 @@ export default {
 
         var s = 0;
 
-
         debrisAnimate(_this.animateQueue[_this.currentFloor].index, _this.animateQueue[_this.currentFloor].direction)
 
         function debrisAnimate(startIndex, direction) {
-          
+
           var debris = _this.floors[_this.currentFloor].getElementsByTagName('div');
 
           _this.currentFloor++;
@@ -163,15 +177,17 @@ export default {
 
 
           function _animate(index) {
+
+
             debris[index].setAttribute('animited', 'animited');
-            // debris[index].style.display = 'none';
             debris[index].className += ' animited';
+
+            var backdebris = _this.floors[_this.currentFloor].getElementsByTagName('div')[index]
+                backdebris.className += ' ready'
           }
 
           //第一步
           _animate(startIndex);
-          console.log(debris)
-          console.log(startIndex)
           setTimeout(function () {
             _stepTwo();
           }, _this.intervalTime)
@@ -223,22 +239,35 @@ export default {
                 if (i == path.length - 1) {
                   _stepFour()
                 }
-              }, s * 30, s);
+              }, s * 300, s);
               s++
             })
           }
 
           //第四步
           function _stepFour() {
-            
+
             setTimeout(function () {
               for (var i = 0; i < debris.length; i++) {
-                _animate(i);
+                (function (n) {
+                  setTimeout(function () {
+                    _animate(n);
+                  }, 1000 * Math.random())
+
+                })(i)
               }
+              
               setTimeout(function () {
-                if (_this.currentFloor == _this.floors.length) return false;
-                debrisAnimate(_this.animateQueue[_this.currentFloor].index, _this.animateQueue[_this.currentFloor].direction)
-              }, _this.intervalTime)
+                if (_this.currentFloor == _this.floors.length) {
+                  if (_isFunction(_this.callBack)) {
+                    _this.callBack();
+                    return false;
+                  }
+                } else {
+                  debrisAnimate(_this.animateQueue[_this.currentFloor].index, _this.animateQueue[_this.currentFloor].direction)
+                }
+
+              }, _this.intervalTime * 3)
 
             }, _this.intervalTime)
 
@@ -254,14 +283,19 @@ export default {
     }
 
     var pic = new PictureMove('pic1', {
-      row: 6,
-      column: 7,
+      row: 8,
+      column: 5,
       backgroundURL: [
         'https://cimg2.res.meizu.com/www/201707/f9CDEF5H4J32M1zxwvSusVlihZabBeTd.jpg',
-        'https://cimg2.res.meizu.com/www/201707/f987E52HIJ0xMuOPQRsrqonXjiabctd6.jpg',
-        'https://cimg2.res.meizu.com/www/201707/fA8D54GHIJ3zMNOyQRtsUqponmlhcdeB.jpg'
+        'https://cimg2.res.meizu.com/www/201707/fA8D54GHIJ3zMNOyQRtsUqponmlhcdeB.jpg',
+        'https://cimg2.res.meizu.com/www/201707/f9CDEF5H4J32M1zxwvSusVlihZabBeTd.jpg',
       ],
-      intervalTime: 800
+      intervalTime: 500,
+      animateQueue: [{ index: 13, direction: 'left' }, { index: 28, direction: 'right' }, { index: 20, direction: 'left' }],
+      starTime: 1000,
+      callBack: function () {
+        console.log(123)
+      }
     })
 
 
@@ -295,30 +329,74 @@ h1 {
       width: 100%;
       height: 100%;
       left: 0;
-      top: 0;
+      top: 0; // background: #000;
     }
     .debris {
       position: absolute;
       width: 25%;
       height: 300px;
       top: 0;
-      left: 0;
-      background: url(../../assets/components/picture-window/images/bg_2.jpg) no-repeat;
+      left: 0; // background: url(../../assets/components/picture-window/images/bg_2.jpg) no-repeat;
       font-size: 50px;
       color: #fff;
+      transform: perspective(500px) rotateY(90deg);
     }
   }
-  .section-1 {
-    background: url(../../assets/components/picture-window/images/bg_3.jpg) no-repeat;
-    background-size: 100%;
+  .pic-floor-1 {
+    .debris {
+      transform: perspective(500px) rotateY(0deg);
+    }
   }
-  .section-2 {
-    background: url(../../assets/components/picture-window/images/bg_2.jpg) no-repeat;
-    background-size: 100%;
+  .pic-floor {
+    .back {
+      .debris {
+        transform: perspective(500px) rotateY(90deg);
+      }
+    }
+    .animited {
+      transform: perspective(500px) rotateY(90deg);
+      transition: transform 0.5s ease-in;
+    }
+     .ready {
+      transform: perspective(500px) rotateY(0deg);
+      transition: transform 0.5s 0.5s ease-out;
+    }
+    &.back {
+      .animited {
+        transition: transform 0.5s;
+        transform: perspective(500px) rotateY(90deg);
+      }
+    }
   }
-  .animited {
-    opacity: 0;
-    transition: opacity 0.5s;
+}
+
+
+
+
+/*** test ***/
+
+.test {
+  width: 200px;
+  height: 400px;
+  background: deepskyblue;
+  margin-left: 200px;
+  position: relative;
+
+  div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .before {
+    transform: perspective(600px) rotateY(-180deg);
+    z-index: 2;
+    background: red;
+  }
+  .after {
+    transform: rotateY(-180deg);
+    background: green;
   }
 }
 </style>
