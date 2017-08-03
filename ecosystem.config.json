@@ -1,0 +1,37 @@
+{
+  "app": [
+    {
+      "name": "demo-project",
+      "script": "./build/dev-server.js",
+      "watch": true,
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "env_production": {
+        "NODE_ENV": "production"
+      }
+    }
+  ],
+  "deploy":{
+    "production":{
+      "user" : "ccf",
+      // Multi host is possible, just by passing IPs/hostname as an array
+      "host" : ["39.108.101.167"],
+      // Branch
+      "ref"  : "origin/master",
+      // Git repository to clone
+      "repo" : "git@github.com:ccfnever/demos-project.git",
+      // Path of the application on target servers
+      "path" : "/home/ccf/www/production",
+      // Can be used to give options in the format used in the configura-
+      // tion file.  This is useful for specifying options for which there
+      // is no separate command-line flag, see 'man ssh' 
+      // can be either a single string or an array of strings
+      "ssh_options": "StrictHostKeyChecking=no",
+ 
+      "env"  : {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
