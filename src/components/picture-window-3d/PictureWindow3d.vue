@@ -23,7 +23,6 @@ export default {
     }
   },
   mounted() {
-
     var PictureMove = function (selector, params) {
 
       //getComputedStyle 方法的兼容性处理
