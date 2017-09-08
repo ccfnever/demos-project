@@ -3,8 +3,11 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
+import TreeNode from './components/tree-node';
 
 Vue.config.productionTip = false;
+
+Vue.component('tree-node',TreeNode)
 
 /* eslint-disable no-new */
 new Vue({

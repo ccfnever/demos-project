@@ -8,6 +8,7 @@ import Phone3d from '../components/css3-3d-phone/Phone3d.vue';
 import ThreeGeometry from '../components/three-geometry';
 import PictureWindow from '../components/picture-window';
 import PictureWindow3d from '../components/picture-window-3d';
+import Tree from '../components/tree';
 
 Vue.use(Router);
 
@@ -49,9 +50,15 @@ export default new Router({
       component: PictureWindow3d,
     },
     {
+      path: '/tree',
+      name: 'Tree',
+      component: Tree,
+    },
+    {
       path: '/',
       name: 'DemoList',
       component: DemoList,
     },
+    
   ],
 });

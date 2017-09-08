@@ -8,6 +8,7 @@
       <li><router-link to="css3-3d-phone">css3-3d-phone</router-link></li>
       <li><router-link to="three-geometry">three-geometry</router-link></li>
       <li><router-link to="picture-window">picture-window</router-link></li>
+      <li><router-link to="tree">tree</router-link></li>
     </ul>
   </div>
 
