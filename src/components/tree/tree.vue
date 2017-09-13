@@ -1,74 +1,22 @@
 <template>
   <div>
-    <h2>{{title}}</h2>
-  
-    <tree-node v-for='(child,index) in treeDataComputed' :vm="vm" :node='child' :key='index' :index='index'></tree-node>
-  
+    <tree-node v-for='(child,index) in treeDataComputed' :treeData="treeData" :extendRender="extendRender" :vm="vm" :node='child' :key='index' :index='index'></tree-node>
   </div>
 </template>
 <script>
 
 import bus from '../event-bus';
+import TreeNode from './tree-node';
 
 export default {
+  components:{TreeNode},
+  props:{
+    treeData:Array,
+    extendRender:Function,
+  },
   data() {
     return {
-      title: 'tree 组件示例',
       vm:null,
-      treeData: [
-        {
-          name: '水果',
-          children: [
-            {
-              name: '苹果',
-            },
-            {
-              name: '香蕉',
-              children: [
-                {
-                  name: '臭香蕉',
-
-                },
-                {
-                  name: '烂香蕉'
-                },
-                {
-                  name: '硬香蕉'
-                },
-                {
-                  name: '软香蕉'
-                },
-                {
-                  name: '长香蕉'
-                }
-              ]
-            }
-
-          ]
-        },
-        {
-          name: '蔬菜',
-          children: [
-            {
-              name: '小白菜',
-            },
-            {
-              name: '萝卜',
-              children: [
-                {
-                  name: '红萝卜',
-
-                },
-                {
-                  name: '白萝卜'
-                }
-              ]
-            }
-
-          ]
-        }
-
-      ]
 
     }
   },
@@ -105,10 +53,13 @@ export default {
   mounted() {
 
     var self = this;
-
     bus.$on('update', (val) => {
       self.vm = val
     })
+
+  },
+  methods:{
+   
   }
 }
 </script>
