@@ -1,21 +1,17 @@
-# vue-cli-diy
+# 用于学习记录的 demo示例项目，基于vue
 
-> A Vue.js project
-
-## Build Setup
+## clone后，执行以下可以启动项目：
 
 ``` bash
-# install dependencies
+# cd 你的项目路径
+
 npm install
 
-# serve with hot reload at localhost:8080
+# 默认服务启动在 localhost:8083
 npm run dev
 
-# build for production with minification
+# 打包
 npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
