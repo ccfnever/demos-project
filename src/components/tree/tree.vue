@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tree-container">
     <tree-node v-for='(child,index) in treeDataComputed' :treeData="treeData" :extendRender="extendRender" :vm="vm" :node='child' :key='index' :index='index'></tree-node>
   </div>
 </template>

@@ -21,18 +21,58 @@ export default {
           class: {
             foo: true
           },
-          on: {
-            click: () => {
-              this.clickHandler(params)
-            }
-          }
+
         }, [
-            h('a', {
-              attrs: {
-                href: 'javascript:;'
-              }
-            }),
-            '按钮'
+            h('button',
+              {
+                attrs: {
+                  href: 'javascript:;'
+                },
+                class: {
+                  'tree-btn': true
+                },
+                on: {
+                  click: () => {
+                    this.clickHandler(params)
+                  }
+                },
+              },
+              '点我改变'
+            ),
+            h('button',
+              {
+                attrs: {
+                  href: 'javascript:;'
+                },
+                class: {
+                  'tree-btn': true,
+                  'tree-btn-delete': true,
+                },
+                on: {
+                  click: () => {
+                    this.clickHandlerDelete(params)
+                  }
+                },
+              },
+              '删除'
+            ),
+            h('button',
+              {
+                attrs: {
+                  href: 'javascript:;'
+                },
+                class: {
+                  'tree-btn': true,
+                  'tree-btn-add': true,
+                },
+                on: {
+                  click: () => {
+                    this.clickHandlerAdd(params)
+                  }
+                },
+              },
+              '插入'
+            ),
           ])
       },
 
@@ -94,12 +134,43 @@ export default {
     }
   },
   methods: {
-    clickHandler(node) {
-      console.log(node)
+    clickHandler(ctx) {
+      ctx.vm.node.name = '哈哈哈哈哈哈哈哈哈哈'
+    },
+    clickHandlerDelete(ctx) {
+      console.log(ctx.vm)
+      let vm = ctx.vm;
+      const index = vm.index;
+      vm.$parent.node.children.splice(index, 1)
+    },
+    clickHandlerAdd(ctx) {
+      console.log(ctx.vm)
+      let vm = ctx.vm;
+      const index = vm.index + 1;
+      const text = { name: 'lalala,我是卖报的小行家' };
+      vm.$parent.node.children.splice(index, 0, text)
     }
   }
 }
 </script>
-<style lang="sass" scoped>
+<style lang="scss" >
+.tree-btn {
+  border: 0;
+  padding: 3px;
+  margin-left: 10px;
+  background: deepskyblue;
+  color: #fff;
+  border-radius: 2px;
+  outline-style: none;
+  font-size: 10px;
+}
 
+.tree-btn-delete {
+  background: deeppink;
+}
+
+.tree-container {
+  margin-left: 100px;
+  margin-top: 50px;
+}
 </style>
