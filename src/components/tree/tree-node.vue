@@ -1,8 +1,8 @@
 <template>
   <div :class="{'drop-top-enter':dropTopEnterColor,'drop-enter':dropEnterColor}">
-    <div class="tree-node-top" @dragover.prevent @drop.stop="handleDropTop" @dragenter.stop="handleDragEnterTop" @dragleave.stop="handleDragLeaveTop"></div>
-    <div class="tree-node" :draggable="!!node.name" :tree-id="node.id" @dragover.prevent @dragstart.stop="handleDragStart" @drop.stop="handleDrop" @dragenter.stop="handleDragEnter" @dragleave.stop="handleDragLeave">
-      -- {{ node.name }} 
+    <div class="tree-node-top" @dragover.prevent @drop.stop="handleDropTop" @dragenter.stop="handleDragEnterTop"  @mouseover.stop @dragleave.stop="handleDragLeaveTop"></div>
+    <div class="tree-node" :class="{'tree-node-hover':treeNodeHover}" draggable="true" :tree-id="node.id" @mouseover.stop="handHover" @mouseout="handOut" @dragover.prevent @dragstart.stop="handleDragStart" @drop.stop="handleDrop" @dragenter.stop="handleDragEnter" @dragleave.stop="handleDragLeave">
+      -- {{ node.name }}
       <extend :render="expandRender" :vm="expandVm"></extend>
       <div class="tree-node-children">
         <tree-node v-for="(child,index) in node.children" :vm='vm' :treeData="treeData" :extendRender="extendRender" :node="child" :key="index" :index='index'>
@@ -26,7 +26,7 @@ var Extend = {
     const params = {
       vm: ctx.props.vm
     };
-    return ctx.props.render(h,params);
+    return ctx.props.render(h, params);
   }
 }
 
@@ -43,29 +43,28 @@ export default {
   data() {
     return {
       dropTopEnterColor: false,
-      dropEnterColor: false
+      dropEnterColor: false,
+      treeNodeHover:false
     }
   },
   computed: {
     expandRender() {
       return this.extendRender;
     },
-    expandVm(){
+    expandVm() {
       return this;
     }
 
   },
   methods: {
-    
+
     handleDragStart() {
       bus.$emit('update', this);
     },
     handleDropTop() { //拖到兄弟节点
       if (this.isUnableDrop()) {
-        // this.clearAllBgColor();
         return false;
       }
-      var index = this.vm.index + 1
 
       //如果拖动对象是顶级菜单
       if (!this.vm.$parent.node) {
@@ -85,7 +84,6 @@ export default {
     },
     handleDrop() { //拖到子节点
       if (this.isUnableDrop()) {
-        // this.clearAllBgColor();
         return false;
       }
 
@@ -117,9 +115,11 @@ export default {
     handleDragLeave() {
       this.dropEnterColor = false;
     },
-    clearAllBgColor() {
-      document.querySelectorAll('.tree-node').style.backgroundColor = ''
-      document.querySelectorAll('.tree-node-top').style.backgroundColor = ''
+    handHover(){
+      this.treeNodeHover = true;
+    },
+    handOut(){
+      this.treeNodeHover = false;
     },
     isUnableDrop() {
       //不能拖到自己、或者自己的子孙上面，不然会报错
@@ -128,16 +128,9 @@ export default {
         if (this.vm === parent) return true;
         parent = parent.$parent
       }
-    },
-    handCheckTree() {
-
-      bus.$emit('on-check', this)
     }
   },
   created() {
-    // Vue.component('test',{
-    //   render:this.render[0].render
-    // }).bind(this)
   }
 }
 </script>
@@ -146,7 +139,6 @@ export default {
   display: block;
   text-align: left;
 }
-
 
 .tree-node-children {
   margin-left: 40px;

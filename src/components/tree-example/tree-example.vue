@@ -9,7 +9,6 @@
 <script>
 import Tree from '../tree';
 
-
 export default {
   components: { Tree },
   data() {
@@ -25,9 +24,6 @@ export default {
         }, [
             h('button',
               {
-                attrs: {
-                  href: 'javascript:;'
-                },
                 class: {
                   'tree-btn': true
                 },
@@ -37,13 +33,10 @@ export default {
                   }
                 },
               },
-              '点我改变'
+              '编辑'
             ),
             h('button',
               {
-                attrs: {
-                  href: 'javascript:;'
-                },
                 class: {
                   'tree-btn': true,
                   'tree-btn-delete': true,
@@ -58,9 +51,6 @@ export default {
             ),
             h('button',
               {
-                attrs: {
-                  href: 'javascript:;'
-                },
                 class: {
                   'tree-btn': true,
                   'tree-btn-add': true,
@@ -138,17 +128,30 @@ export default {
       ctx.vm.node.name = '哈哈哈哈哈哈哈哈哈哈'
     },
     clickHandlerDelete(ctx) {
-      console.log(ctx.vm)
+    
       let vm = ctx.vm;
       const index = vm.index;
-      vm.$parent.node.children.splice(index, 1)
+
+      if(!vm.$parent.node){
+        this.treeData.splice(index,1)
+      }else{
+        vm.$parent.node.children.splice(index, 1)
+      }
+      
     },
     clickHandlerAdd(ctx) {
-      console.log(ctx.vm)
+    
       let vm = ctx.vm;
       const index = vm.index + 1;
       const text = { name: 'lalala,我是卖报的小行家' };
-      vm.$parent.node.children.splice(index, 0, text)
+
+      if(!vm.$parent.node){
+        this.treeData.splice(index, 0, text)
+      }else{
+        vm.$parent.node.children.splice(index, 0, text)
+      }
+
+      
     }
   }
 }
@@ -172,5 +175,15 @@ export default {
 .tree-container {
   margin-left: 100px;
   margin-top: 50px;
+}
+.tree-node{
+  span{
+    display: none;
+  }
+  &.tree-node-hover>span{
+
+    display: inline;
+  
+  }
 }
 </style>
