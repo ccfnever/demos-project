@@ -4,7 +4,7 @@
     <div class="tree-node" :class="{'tree-node-hover':treeNodeHover}" draggable="true" :tree-id="node.id" @mouseover.stop="handHover" @mouseout="handOut" @dragover.prevent @dragstart.stop="handleDragStart" @drop.stop="handleDrop" @dragenter.stop="handleDragEnter" @dragleave.stop="handleDragLeave">
       -- {{ node.name }}
       <extend :render="expandRender" :vm="expandVm"></extend>
-      <div class="tree-node-children">
+      <div v-if="node.children" class="tree-node-children">
         <tree-node v-for="(child,index) in node.children" :vm='vm' :treeData="treeData" :extendRender="extendRender" :node="child" :key="index" :index='index'>
         </tree-node>
       </div>
